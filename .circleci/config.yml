@@ -1,0 +1,24 @@
+version: 2.1
+
+orbs:
+  node: circleci/node@5.0.2
+
+jobs:
+  build-and-test:
+    docker:
+      - image: cimg/node:20.10
+    steps:
+      - checkout
+      - node/install-packages:
+          pkg-manager: npm
+      - run:
+          name: Run React build
+          command: npm run build
+      - run:
+          name: Run tests
+          command: npm test -- --watchAll=false
+
+workflows:
+  build:
+    jobs:
+      - build-and-test
